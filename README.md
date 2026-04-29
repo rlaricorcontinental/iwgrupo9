@@ -4,7 +4,7 @@ PA03 Grupo9 - Ingeniería Web
 ## Requerimientos
 node v22.22.2
 
-[Quasar2](https://quasar.dev/)
+[Quasar2](https://quasar.dev/start/quasar-cli)
 
 [SQl Server 2022](https://hub.docker.com/r/microsoft/mssql-server)
 
