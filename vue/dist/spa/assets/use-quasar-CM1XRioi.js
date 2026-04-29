@@ -1,1 +1,0 @@
-import{mt as e}from"./QBtn-CZCSHIZs.js";function t(){return e(`_q_`)}export{t};

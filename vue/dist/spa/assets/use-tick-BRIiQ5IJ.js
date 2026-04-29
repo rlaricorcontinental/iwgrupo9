@@ -1,1 +1,0 @@
-import{bt as e,c as t,ft as n,ht as r,vt as i}from"./QBtn-CZCSHIZs.js";function a(){let a,o=n();function s(){a=void 0}return e(s),i(s),{removeTick:s,registerTick(e){a=e,r(()=>{a===e&&(t(o)===!1&&a(),a=void 0)})}}}export{a as t};
