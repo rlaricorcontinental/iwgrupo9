@@ -7,7 +7,7 @@ docker compose
 
 ## Instalación
 
-Iniciar sql server docker, restaurar base de datos
+Iniciar contenedor
 ```bash
 docker compose up -d --build
 ```
