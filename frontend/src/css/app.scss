@@ -1,0 +1,90 @@
+body {
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  background: #f5f7fa;
+}
+
+.brand-gradient {
+  background: linear-gradient(135deg, #0d1f30 0%, #1a3a5c 100%);
+  color: #fff;
+}
+
+.section-pad {
+  padding: 64px 24px;
+}
+
+.card-soft {
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(13, 31, 48, 0.08);
+}
+
+.hero-slide {
+  position: relative;
+  min-height: 520px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-slide .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(13, 31, 48, 0.92) 55%, rgba(13, 31, 48, 0.35) 100%);
+}
+
+.hero-slide .bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-slide .content {
+  position: relative;
+  max-width: 620px;
+  padding: 48px 32px;
+}
+
+.tag-chip {
+  display: inline-block;
+  background: rgba(232, 119, 34, 0.15);
+  color: #e87722;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.timeline-step {
+  border-left: 2px solid #e0e0e0;
+  padding: 0 0 24px 24px;
+  position: relative;
+}
+
+.timeline-step::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #e87722;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #e87722;
+}
+
+.timeline-step.muted::before {
+  background: #bdbdbd;
+  box-shadow: 0 0 0 2px #bdbdbd;
+}

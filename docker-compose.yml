@@ -1,0 +1,87 @@
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: ismaelcargo-mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD}
+      MSSQL_PID: Developer
+    ports:
+      - "${DB_PORT:-1433}:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+      - ./sql:/backup:ro
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    restart: unless-stopped
+
+  mssql-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: ismaelcargo-mssql-init
+    depends_on:
+      mssql:
+        condition: service_healthy
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+    volumes:
+      - ./db/restore.sh:/restore.sh:ro
+    entrypoint: ["/bin/bash", "/restore.sh"]
+    restart: "no"
+
+  backend:
+    build:
+      context: ./backend
+    container_name: ismaelcargo-backend
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_SERVER: mssql
+      DB_PORT: 1433
+      DB_NAME: IsmaelCargoDB
+      DB_USER: sa
+      DB_PASSWORD: ${SA_PASSWORD}
+      DB_ENCRYPT: "false"
+      DB_TRUST_CERT: "true"
+      JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN:-https://rlaricor.com:8080}
+    depends_on:
+      mssql-init:
+        condition: service_completed_successfully
+    expose:
+      - "3000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        API_URL: /api
+    container_name: ismaelcargo-frontend
+    environment:
+      DOMAIN: ${DOMAIN:-rlaricor.com}
+    depends_on:
+      - backend
+    ports:
+      - "${HTTPS_PORT:-8080}:443"
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot:ro
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: ismaelcargo-certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["trap exit TERM; while :; do certbot renew --quiet --no-random-sleep-on-renew; nginx_pid=$$(pidof nginx 2>/dev/null || true); sleep 12h & wait $${!}; done;"]
+    profiles: ["renew"]
+    restart: unless-stopped
+
+volumes:
+  mssql-data:
