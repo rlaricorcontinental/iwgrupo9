@@ -1,30 +1,19 @@
 # ISMAELCARGO
 
-PA03 Grupo9 - Ingeniería Web
+EF Grupo9 - Ingeniería Web
 ## Requerimientos
-node v22.22.2
-
-[Quasar2](https://quasar.dev/start/quasar-cli)
-
-[SQl Server 2022](https://hub.docker.com/r/microsoft/mssql-server)
+docker
+docker compose
 
 ## Instalación
 
 Iniciar sql server docker, restaurar base de datos
 ```bash
-cd backend && npm install
-cd frontend && npm install
-```
-
-## Iniciar
-
-```bash
-cd backend && npm run dev
-cd frontend && quasar dev
+docker compose up -d --build
 ```
 
 ## Dirección de acceso
 
-[http://localhost:9000](http://localhost:9000)
+[https://rlaricor.com:8080](https://rlaricor.com:8080)
 
 admin/admin123.
